@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="Instead of dealing with 'Save file' dialog or in-browser PDF previewing, this tutorial will demonstrate how to download PDF files automatically in Firefox using Selenium WebDriver." />
+    <meta name="keywords" content="seabookchen,firefox,ruby,selenium-webdriver" />
+    
+
+    <title>Download PDF files automatically in Firefox using Selenium WebDriver - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">Download PDF files automatically in Firefox using Selenium WebDriver</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub updated" title="2014-05-23T00:00:00+10:00" datetime="2014-05-23T00:00:00+10:00">May 23, 2014 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="articles" href="/categories/#articles" title="articles">
+                articles <span>16</span></a>
+            </li>
+         
+            <li>
+                <a data-ga="popular" href="/categories/#popular" title="popular">
+                popular <span>17</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="firefox" href="/tags/#firefox" title="firefox">firefox <span>1</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="ruby" href="/tags/#ruby" title="ruby">ruby <span>9</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="selenium-webdriver" href="/tags/#selenium-webdriver" title="selenium-webdriver">selenium-webdriver <span>14</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <h2 id="a-complete-example">A complete example</h2>
+
+<p>For those who are willing to learn by examples right away,
+here is a complete example of how to save PDF files automatically in Firefox using Selenium WebDriver.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Environment Tested:</span>
+<span class="c1"># Windows 7, Ruby 2.0.0p451, Selenium 2.41.0, Firefox 29.0.1</span>
+<span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="n">profile</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">::</span><span class="no">Firefox</span><span class="o">::</span><span class="no">Profile</span><span class="o">.</span><span class="n">new</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.download.folderList&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.download.dir&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;C:\\&#39;</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.helperApps.neverAsk.saveToDisk&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;application/pdf&#39;</span>
+
+<span class="c1"># disable Firefox&#39;s built-in PDF viewer</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;pdfjs.disabled&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># disable Adobe Acrobat PDF preview plugin</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;plugin.scan.plid.all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;plugin.scan.Acrobat&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;99.0&quot;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:firefox</span><span class="p">,</span> <span class="ss">:profile</span> <span class="o">=&gt;</span> <span class="n">profile</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://static.mozilla.com/moco/en-US/pdf/mozilla_privacypolicy.pdf&#39;</span><span class="p">)</span></code></pre></div>
+
+<h2 id="a-walk-through">A walk-through</h2>
+
+<h3 id="prevent-firefox-from-popping-up-save-file-dialog">Prevent Firefox from popping up “Save file” dialog</h3>
+
+<p>As Selenium itself doesn’t interact with system-level dialogs,
+in order to download PDFs as part of the browser automation process,
+it requires the help from either additional frameworks or an approach that handles downloading automatically.</p>
+
+<p><a class="post-image" href="/assets/images/posts/2014-05-23-firefox-save-file-dialog.png" title="'Save file' dialog in Firefox">
+<img itemprop="image" data-src="/assets/images/posts/2014-05-23-firefox-save-file-dialog.png" src="/assets/js/unveil/loader.gif" alt="'Save file' dialog in Firefox" />
+</a></p>
+
+<p>Firefox’s <a href="https://developer.mozilla.org/en/docs/Download_Manager_preferences">download manager preferences</a> are controlled by some properties defined in <a href="http://kb.mozillazine.org/About:config"><code>about:config</code></a> page,
+which can be set programmatically while instantiating <code>FirefoxDriver</code> using Selenium WebDriver.</p>
+
+<ul>
+  <li><code>browser.download.folderList</code> controls the default folder to download a file to.
+<code>0</code> indicates the Desktop; <code>1</code> indicates the systems default downloads location; <code>2</code> indicates a custom folder.</li>
+  <li><code>browser.download.dir</code> holds the custom destination folder for downloading. It is activated if <code>browser.download.folderList</code> has been set to <code>2</code>.</li>
+  <li><code>browser.helperApps.neverAsk.saveToDisk</code> stores a comma-separated list of MIME types to save to disk without asking what to use to open the file.</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">profile</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">::</span><span class="no">Firefox</span><span class="o">::</span><span class="no">Profile</span><span class="o">.</span><span class="n">new</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.download.folderList&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># use the custom folder defined in &quot;browser.download.dir&quot; below</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.download.dir&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;C:\\&#39;</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;browser.helperApps.neverAsk.saveToDisk&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;application/pdf&#39;</span></code></pre></div>
+
+<p>It is worth noting that the <a href="http://tools.ietf.org/html/rfc2046">MIME type</a> defined here is <code>application/pdf</code>, which is a type that most PDF files use.
+However, if the target PDF file has a non-standard MIME type, then “Save file” dialog might still show up.
+In order to fix this issue, the actual MIME type has to be added into <code>browser.helperApps.neverAsk.saveToDisk</code> property,
+which can be checked out using either of the following approaches:</p>
+
+<ul>
+  <li>Upload file to online tools like <a href="http://mime.ritey.com/">What MIME?</a></li>
+  <li>Download file and monitor MIME type in Chrome’s developer tool or web debugging proxy like <a href="http://www.telerik.com/fiddler">Fiddler</a>, <a href="http://www.charlesproxy.com/">Charles</a>, etc.</li>
+</ul>
+
+<h3 id="prevent-firefox-from-previewing-pdfs">Prevent Firefox from previewing PDFs</h3>
+
+<h4 id="for-built-in-pdf-js-viewer">For built-in PDF.js viewer</h4>
+
+<p>With the release of Firefox 19.0,
+<a href="https://github.com/mozilla/pdf.js/">PDF.js</a> has been integrated into Firefox to provide built-in ability of displaying PDF files inside browser.
+It tries to parse and render PDFs into HTML5, which can be automated using Selenium WebDriver in theory.
+However, to download PDFs instead of preview in Firefox,
+another <a href="http://kb.mozillazine.org/About:config"><code>about:config</code></a> entry needs to be changed to disable PDF.js.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">profile</span><span class="o">[</span><span class="s2">&quot;pdfjs.disabled&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span></code></pre></div>
+
+<h4 id="for-third-party-pdf-viewers">For third party PDF viewers</h4>
+
+<p>Except for Firefox’s built-in PDF viewer, there might be other third party plugins preventing Firefox from downloading PDFs automatically.
+If a machine has <a href="http://get.adobe.com/uk/reader/">Adobe Reader</a> installed,
+then default PDF viewing setting in Firefox might have been set to Adobe Acrobat without notice.</p>
+
+<p>To avoid previewing PDFs with those plugins,
+two more <a href="http://kb.mozillazine.org/About:config"><code>about:config</code></a> entries need to be configured when starting WebDriver instance.</p>
+
+<ul>
+  <li><code>plugin.scan.plid.all</code> needs to be <code>false</code>, so that Firefox won’t scan and load plugins.</li>
+  <li><code>plugin.scan.Acrobat</code> is a key that holds the minimum allowed version number that Adobe Acrobat is allowed to launch.
+Setting it to a number larger than currently installed Adobe Acrobat version should do the trick.</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">profile</span><span class="o">[</span><span class="s2">&quot;plugin.scan.plid.all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="n">profile</span><span class="o">[</span><span class="s2">&quot;plugin.scan.Acrobat&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;99.0&quot;</span></code></pre></div>
+
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2014/05/03/use-a-button-to-display-disqus-comments-count-and-load-comments-onclick" title="View 'Use a button to display Disqus comments count and load comments onClick'"> ← Use a button to display Disqus comments count and load comments onClick</a>
+                        
+                        
+                            <a class="internal" data-ga="Next Post" rel="next" href="/2014/07/19/why-you-shouldnt-start-learning-selenium-by-automating-googles-products" title="View 'Why you shouldn't start learning Selenium by automating Google's products?'">Why you shouldn't start learning Selenium by automating Google's products? → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2014/05/23/download-pdf-files-automatically-in-firefox-using-selenium-webdriver/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+
+	
+		<script src="/assets/js/google-code-prettify/run_prettify.js?lang=yaml"></script>
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/css/highlight.css" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css" type="text/css" />');
+		</script>
+	
+
+	
+		<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+		<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+
+		<script>window.jQuery.fancybox || document.write('<script src="/assets/js/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')</script>
+		<script>window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/js/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')</script>
+
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/js/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+			$(".post-image").fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+				closeBtn : true,
+				helpers : {
+					title : { type : 'float' }
+				}
+			});
+		</script>
+	
+
+	
+		<script src="/assets/js/unveil/jquery.unveil.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$(".post-image > img").unveil(450);
+			});
+		</script>
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+

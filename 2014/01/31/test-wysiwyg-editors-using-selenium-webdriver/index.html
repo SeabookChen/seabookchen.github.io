@@ -1,0 +1,849 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="How to write automated UI functional tests for WYSIWYG HTML editors like TinyMCE, CKEditor, CLEditor, CuteEditor and Primefaces editor using Selenium WebDriver Ruby binding." />
+    <meta name="keywords" content="seabookchen,ruby,selenium-webdriver" />
+    
+
+    <title>Test WYSIWYG editors using Selenium WebDriver - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">Test WYSIWYG editors using Selenium WebDriver</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub " title="2014-01-31T00:00:00+11:00" datetime="2014-01-31T00:00:00+11:00">January 31, 2014 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                                (Last updated: <time class="date-updated updated" title="2014-04-20T00:00:00+10:00" datetime="2014-04-20T00:00:00+10:00">April 20, 2014</time>)
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="articles" href="/categories/#articles" title="articles">
+                articles <span>16</span></a>
+            </li>
+         
+            <li>
+                <a data-ga="popular" href="/categories/#popular" title="popular">
+                popular <span>17</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="ruby" href="/tags/#ruby" title="ruby">ruby <span>9</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="selenium-webdriver" href="/tags/#selenium-webdriver" title="selenium-webdriver">selenium-webdriver <span>14</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <blockquote>
+  <p>What is a WYSIWYG HTML editor?
+<br />A WYSIWYG HTML editor provides an editing interface which resembles
+how the page will be displayed in a web browser.
+Because using a WYSIWYG editor may not require any HTML knowledge,
+they are often easier for an average computer user to get started with.
+(<a href="http://en.wikipedia.org/wiki/HTML_editor#WYSIWYG_HTML_editors">Wikipedia</a>)</p>
+</blockquote>
+
+<p>WYSIWYG HTML editors (an acronym for “What You See Is What You Get”)
+are widely used in web applications as embedded text editor nowadays.
+The most common way of using those editors is framed editing,
+which uses <code>&lt;iframe&gt;</code> instead of <code>&lt;textarea&gt;</code> and displays the content
+inside the <code>&lt;body&gt;</code> element, however,
+it makes the UI automation process a little bit different.</p>
+
+<p>Taking <a href="http://ckeditor.com/">CKEditor</a> and <a href="http://www.tinymce.com/">TinyMCE</a> as examples,
+this article will illustrate:</p>
+
+<blockquote>
+  <ol>
+    <li>How to automate these editors using Selenium WebDriver’s native Ruby API<br /></li>
+    <li>How to inject JavaScript through Selenium WebDriver to automate using editors’ native JavaScript API.</li>
+  </ol>
+</blockquote>
+
+<p>For other editors created with similar technology, for instance, <a href="http://premiumsoftware.net/CLEditor">CLEditor</a>
+(including <a href="http://www.primefaces.org/showcase/ui/editor.jsf">Primefaces editor</a>) and <a href="http://cutesoft.net/ASP.NET%2BWYSIWYG%2BEditor/">CuteEditor</a>,
+the same logic also applies and should work in theory.</p>
+
+<ul class="toc" id="markdown-toc">
+  <li><a href="#wysiwyg-html-editors-comparison">WYSIWYG HTML editors’ comparison</a></li>
+  <li><a href="#demos">Demos</a>    <ul>
+      <li><a href="#ckeditor-demo">CKEditor 4.3.2 Standard</a></li>
+      <li><a href="#tinymce-demo">TinyMCE 4.0.15</a></li>
+    </ul>
+  </li>
+  <li><a href="#automate-using-native-selenium-webdriver-api">Automate using native Selenium WebDriver API</a>    <ul>
+      <li><a href="#click-toolbar-buttons">Click toolbar buttons</a></li>
+      <li><a href="#switch-into-input-iframe">Switch into input iframe</a></li>
+      <li><a href="#automate-content">Automate content</a></li>
+    </ul>
+  </li>
+  <li><a href="#automate-using-editors-built-in-javascript-api">Automate using editors’ built-in JavaScript API</a>    <ul>
+      <li><a href="#set-content">Set content</a></li>
+      <li><a href="#clear-content">Clear content</a></li>
+      <li><a href="#insert-content">Insert content</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a>    <ul>
+      <li><a href="#set-content-using-selenium-webdriver-api">Set content using Selenium WebDriver API</a></li>
+      <li><a href="#select-all-content">Select all content</a></li>
+      <li><a href="#click-numbered-list-from-toolbar">Click “Numbered list” from toolbar</a></li>
+      <li><a href="#set-content-using-editors-api">Set content using editors’ API</a></li>
+    </ul>
+  </li>
+  <li><a href="#references">References</a></li>
+</ul>
+
+<h2 id="wysiwyg-html-editors-comparison">WYSIWYG HTML editors’ comparison</h2>
+
+<div class="data-table"><table><tr>
+	<th></th>
+	<th>CKEditor (Standard)</th>
+	<th>TinyMCE</th>
+	<th>CLEditor</th>
+</tr>
+<tr>
+	<td>Homepage</td>
+	<td class="center"><a href="http://ckeditor.com/">ckeditor.com</a></td>
+	<td class="center"><a href="http://www.tinymce.com/">tinymce.com</a></td>
+	<td class="center"><a href="http://premiumsoftware.net/CLEditor">premiumsoftware.net</a></td>
+</tr>
+<tr>
+	<td>Current version</td>
+	<td class="center">4.3.2</td>
+	<td class="center">4.0.15</td>
+	<td class="center">1.4.4</td>
+</tr>
+<tr>
+	<td>License</td>
+	<td class="center"><a href="http://ckeditor.com/about/license">GPL, LGPL and MPL</a></td>
+	<td class="center"><a href="http://www.tinymce.com/js/tinymce4/js/tinymce/license.txt">LGPL</a></td>
+	<td class="center"><a href="http://premiumsoftware.net/CLEditor">MIT or GPL v2</a></td>
+</tr>
+<tr>
+	<td>Size (Distribution package)</td>
+	<td class="center">1022 kB</td>
+	<td class="center">291.3 kB</td>
+	<td class="center">20.4 kB</td>
+</tr>
+<tr>
+	<td>Size (Core .js file)</td>
+	<td class="center">461.2 kB</td>
+	<td class="center">282.7 kB</td>
+	<td class="center">12.5 kB</td>
+</tr></table></div>
+
+<h2 id="demos">Demos</h2>
+
+<h3 id="ckeditor-demo">CKEditor 4.3.2 Standard</h3>
+
+<textarea id="ckeditor"></textarea>
+<script type="text/javascript" src="/assets/js/ckeditor/ckeditor.js"></script>
+
+<script>CKEDITOR.replace('ckeditor');</script>
+
+<h3 id="tinymce-demo">TinyMCE 4.0.15</h3>
+
+<textarea id="tinymce-editor"></textarea>
+<script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
+
+<script type="text/javascript">tinymce.init({selector: "#tinymce-editor"});</script>
+
+<h2 id="automate-using-native-selenium-webdriver-api">Automate using native Selenium WebDriver API</h2>
+
+<p>Both CKEditor and TinyMCE are JavaScript based,
+which means they can be automated using Selenium WebDriver’s native API just like any other HTML web applications.</p>
+
+<h3 id="click-toolbar-buttons">Click toolbar buttons</h3>
+
+<p>WYSIWYG editors normally provide native methods to set raw HTML content directly through API,
+automating the toolbar doesn’t seem to be really necessary.
+If it’s needed to be done for some reason, it shouldn’t be much of a problem,
+because toolbar elements are just ordinary web elements,
+the automating process is fairly straight-forward without any frame switching required.</p>
+
+<blockquote>
+  <ol>
+    <li>Find the elements by appropriate locators according to the HTML markup.</li>
+    <li>Manipulate those elements see if they work or not.</li>
+  </ol>
+</blockquote>
+
+<p>Markup for CKEditor’s toolbar “Numbered List” button: <a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;a</span> <span class="na">id=</span><span class="s">&quot;cke_39&quot;</span> <span class="na">class=</span><span class="s">&quot;cke_button cke_button__numberedlist&quot;</span> <span class="na">href=</span><span class="s">&quot;javascript:void(&#39;Insert/Remove Numbered List&#39;)&quot;</span> <span class="na">title=</span><span class="s">&quot;Insert/Remove Numbered List&quot;</span> <span class="na">role=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;cke_button_icon cke_button__numberedlist_icon&quot;</span> <span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/span&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;cke_39_label&quot;</span> <span class="na">class=</span><span class="s">&quot;cke_button_label cke_button__numberedlist_label&quot;</span><span class="nt">&gt;</span>Insert/Remove Numbered List<span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;/a&gt;</span></code></pre></div></div>
+
+<p>Markup for TinyMCE’s toolbar “Numbered List” button: <a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;mce_11&quot;</span> <span class="na">class=</span><span class="s">&quot;mce-widget mce-btn&quot;</span> <span class="na">role=</span><span class="s">&quot;button&quot;</span> <span class="na">aria-label=</span><span class="s">&quot;Numbered list&quot;</span> <span class="na">aria-pressed=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">&quot;mce-ico mce-i-numlist&quot;</span><span class="nt">&gt;&lt;/i&gt;</span>
+    <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></div></div>
+
+<p>Selenium WebDriver Ruby code to click the buttons:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># click CKEditor&#39;s &#39;Numbered List&#39; button</span>
+<span class="n">ckeditor_btn_numbered_list</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;cke_button__numberedlist&quot;</span><span class="p">)</span>
+<span class="n">ckeditor_btn_numbered_list</span><span class="o">.</span><span class="n">click</span>
+
+<span class="c1"># click TinyMCE editor&#39;s &#39;Numbered List&#39; button</span>
+<span class="n">tinymce_btn_numbered_list</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:css</span> <span class="o">=&gt;</span> <span class="s2">&quot;.mce-btn[aria-label=&#39;Numbered list&#39;] button&quot;</span><span class="p">)</span>
+<span class="n">tinymce_btn_numbered_list</span><span class="o">.</span><span class="n">click</span></code></pre></div>
+
+<h3 id="switch-into-input-iframe">Switch into input iframe</h3>
+
+<p>Although CKEditor and TinyMCE are initialized with <code>&lt;textarea&gt;</code> tag,
+the editor body is actually constructed within an <code>&lt;iframe&gt;</code>, which is still technically a web element,
+but all elements inside can only be accessed by WebDriver after switching into the iframe.
+As seen in the HTML mark up below,
+CKEditor’s iframe can be identified using <code>class</code>, while TinyMCE’s can be located by <code>id</code> directly.
+Equivalent CSS Selectors and XPaths also exist if needed.</p>
+
+<p>Markup for CKEditor’s body: <a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">&quot;&quot;</span> <span class="na">frameborder=</span><span class="s">&quot;0&quot;</span> <span class="na">class=</span><span class="s">&quot;cke_wysiwyg_frame cke_reset&quot;</span> <span class="na">title=</span><span class="s">&quot;Rich Text Editor, ckeditor&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en-gb&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;head&gt;&lt;/head&gt;</span>
+        <span class="nt">&lt;body</span> <span class="na">contenteditable=</span><span class="s">&quot;true&quot;</span> <span class="na">class=</span><span class="s">&quot;cke_editable cke_editable_themed cke_contents_ltr&quot;</span> <span class="na">spellcheck=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+<span class="nt">&lt;/iframe&gt;</span></code></pre></div></div>
+
+<p>Markup for TinyMCE’s body: <a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;iframe</span> <span class="na">id=</span><span class="s">&quot;tinymce-editor_ifr&quot;</span> <span class="na">src=</span><span class="s">&#39;javascript:&quot;&quot;&#39;</span> <span class="na">frameborder=</span><span class="s">&quot;0&quot;</span> <span class="na">title=</span><span class="s">&quot;Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;&lt;/head&gt;</span>
+        <span class="nt">&lt;body</span> <span class="na">id=</span><span class="s">&quot;tinymce&quot;</span> <span class="na">class=</span><span class="s">&quot;mce-content-body &quot;</span> <span class="na">contenteditable=</span><span class="s">&quot;true&quot;</span> <span class="na">spellcheck=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+<span class="nt">&lt;/iframe&gt;</span></code></pre></div></div>
+
+<h4 id="locate-the-iframes">Locate the iframes</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">ckeditor_frame</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;cke_wysiwyg_frame&#39;</span><span class="p">)</span>
+<span class="n">tinymce_frame</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;tinymce-editor_ifr&#39;</span><span class="p">)</span></code></pre></div>
+
+<h4 id="switch-into-iframes">Switch into</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">ckeditor_frame</span><span class="p">)</span> <span class="c1"># ckeditor_frame or tinymce_frame, one at a time</span></code></pre></div>
+
+<h4 id="switch-out-iframes">Switch out (if necessary)</h4>
+
+<p>If the WebDriver instance is already inside any kind of frames,
+switch out the current frame to default content is required.
+For example, after switching into CKEditor’s iframe and sending some keys,
+the only way to get into TinyMCE’s input area is to
+switch back to default content first,
+then locate TinyMCE’s iframe and switch into frame again.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># if driver is already inside ckeditor_frame, switch out first</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">default_content</span>
+
+<span class="c1"># then switch to another iframe, e.g. tinymce_frame</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">tinymce_frame</span><span class="p">)</span></code></pre></div>
+
+<h3 id="automate-content">Automate content</h3>
+
+<h4 id="send-keys">Send keys</h4>
+
+<p>After switching into the editor’s <code>&lt;iframe&gt;</code>,
+the text can be sent to the <code>&lt;body&gt;</code> directly, which is possible using Selenium’s native <code>send_keys</code> method.
+Unlike injecting JavaScript using editors’ built-in methods or changing innerHTML,
+the keys sent into the editor will always be inside <code>&lt;p&gt;</code> tag.
+As a result, sending <code>&lt;h1&gt;Heading&lt;/h1&gt;</code> won’t show up as real WYSIWYG heading,
+but in plain text. Furthermore, this approach has been reported behaving incorrectly on Firefox,
+which might be better to avoid if possible.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">editor_body</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:tag_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+<span class="n">editor_body</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;&lt;h1&gt;Heading&lt;/h1&gt;Yi Zeng&quot;</span><span class="p">)</span></code></pre></div>
+
+<h4 id="set-innerhtml">Set innerHTML</h4>
+
+<p>In order to set editor content with raw HTML like WYSIWYG mode,
+one approach is to change the innerHTML of editor body by injecting JavaScript.
+In this case, sending <code>&lt;h1&gt;Heading&lt;/h1&gt;</code> will actually show up as heading one.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">editor_body</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:css</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;arguments[0].innerHTML = &#39;&lt;h1&gt;Heading&lt;/h1&gt;Yi Zeng&#39;&quot;</span><span class="p">,</span> <span class="n">editor_body</span><span class="p">)</span></code></pre></div>
+
+<h4 id="clear-all-input">Clear all input</h4>
+
+<p>A quote from Selenium Ruby’s API documentation on
+<a href="http://selenium.googlecode.com/git/docs/api/rb/Selenium/WebDriver/Element.html#clear-instance_method">clear() method</a>:</p>
+
+<blockquote>
+  <p>If this element is a text entry element, this will clear the value. Has no effect on other elements.</p>
+</blockquote>
+
+<p>Although <code>clear()</code> method is stated as not available for non-text entry elements,
+it seems it can actually clear the input iframe without any exceptions.</p>
+
+<p>Apart from <code>clear()</code>,
+an alternative is to use Selenium’s <a href="http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/ActionBuilder.html">ActionBuilder</a>
+to construct an action chain to mimic keyboard shortcut pressing.
+<code>Ctrl + A</code> will select all, then push <code>Backspace</code> to clear.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Method 1. Using clear() method</span>
+<span class="n">editor_body</span><span class="o">.</span><span class="n">clear</span>
+
+<span class="c1"># Method 2. Using ActionBuilder</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">editor_body</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">key_down</span><span class="p">(</span><span class="ss">:control</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">key_up</span><span class="p">(</span><span class="ss">:control</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">perform</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="ss">:backspace</span><span class="p">)</span><span class="o">.</span><span class="n">perform</span></code></pre></div>
+
+<h2 id="automate-using-editors-built-in-javascript-api">Automate using editors’ built-in JavaScript API</h2>
+
+<p>Without worrying about frame switching like using Selenium WebDriver’s native API,
+it would also be a stable solution to inject JavaScript directly
+using <code>driver.execute_script()</code> to call editors’ built-in JS functions.</p>
+
+<h3 id="set-content">Set content</h3>
+
+<p>Both editors have built-in methods to set the content of entire input area.
+CKEditor’s <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData">API</a> provides a method called <code>setData()</code>,
+which replaces editor data with raw input HTML data.
+Similar method <code>setContent()</code> also exists in TinyMCE editor’s <a href="http://www.tinymce.com/wiki.php/api4:method.tinymce.Editor.setContent">API</a>.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;CKEDITOR.instances.ckeditor.setData(&#39;&lt;h1&gt;Yi Zeng&lt;/h1&gt; CKEditor&#39;)&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;tinyMCE.activeEditor.setContent(&#39;&lt;h1&gt;Yi Zeng&lt;/h1&gt; TinyMCE&#39;)&quot;</span><span class="p">)</span></code></pre></div>
+
+<h3 id="clear-content">Clear content</h3>
+
+<p>With the same logic, clearing content can be done by injecting JavaScript to set the entire content to empty string.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;CKEDITOR.instances.ckeditor.setData( &#39;&#39; )&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;tinyMCE.activeEditor.setContent(&#39;&#39;)&quot;</span><span class="p">)</span></code></pre></div>
+
+<h3 id="insert-content">Insert content</h3>
+
+<p>Instead of setting the entire content, it is also possible to insert some content to the editors.
+CKEditor’s has a method called <code>insertHTML()</code>, which inserts content at currently selected position,
+in TinyMCE, it’s called <code>insertContent()</code>.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;CKEDITOR.instances.ckeditor.insertHtml(&#39;&lt;p&gt;Christchurch&lt;/p&gt;&#39;)&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;tinyMCE.activeEditor.insertContent(&#39;&lt;p&gt;Christchurch&lt;/p&gt;&#39;)&quot;</span><span class="p">)</span></code></pre></div>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="set-content-using-selenium-webdriver-api">Set content using Selenium WebDriver API</h3>
+
+<p><a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Environment tested</span>
+<span class="c1"># Linux Mint 16, Selenium 2.41.0, Chromium 33.0, ChromeDriver 2.9</span>
+<span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:chrome</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yizeng.me/2014/01/31/test-wysiwyg-editors-using-selenium-webdriver/&#39;</span><span class="p">)</span>
+
+<span class="n">ckeditor_frame</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;cke_wysiwyg_frame&#39;</span><span class="p">)</span>
+<span class="n">tinymce_frame</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;tinymce-editor_ifr&#39;</span><span class="p">)</span>
+
+<span class="c1"># Using JavaScript injection to set innerHTML, shown as WYSIWYG</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">ckeditor_frame</span><span class="p">)</span>
+<span class="n">ck_editor_body</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:tag_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;arguments[0].innerHTML = &#39;&lt;h1&gt;CKEditor&lt;/h1&gt;Yi Zeng&#39;&quot;</span><span class="p">,</span> <span class="n">ck_editor_body</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">default_content</span>
+
+<span class="c1"># Using native &#39;send_keys&#39; method, all content are wrapped with &lt;p&gt;</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">tinymce_frame</span><span class="p">)</span>
+<span class="n">tinymce_body</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:css</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+<span class="n">tinymce_body</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s1">&#39;&lt;h1&gt;TInyMCE&lt;/h1&gt;Yi Zeng&#39;</span><span class="p">)</span></code></pre></div></div>
+
+<h3 id="select-all-content">Select all content</h3>
+
+<p><a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Environment tested</span>
+<span class="c1"># Linux Mint 16, Selenium 2.41.0, Chromium 33.0, ChromeDriver 2.9</span>
+<span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:chrome</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yizeng.me/2014/01/31/test-wysiwyg-editors-using-selenium-webdriver/&#39;</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;cke_wysiwyg_frame&#39;</span><span class="p">))</span>
+
+<span class="n">ck_editor_body</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:tag_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+<span class="n">ck_editor_body</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;Yi Zeng&quot;</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">ck_editor_body</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">key_down</span><span class="p">(</span><span class="ss">:control</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">key_up</span><span class="p">(</span><span class="ss">:control</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">perform</span></code></pre></div></div>
+
+<h3 id="click-numbered-list-from-toolbar">Click “Numbered list” from toolbar</h3>
+
+<p><a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Environment tested</span>
+<span class="c1"># Linux Mint 16, Selenium 2.41.0, Chromium 33.0, ChromeDriver 2.9</span>
+<span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:chrome</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yizeng.me/2014/01/31/test-wysiwyg-editors-using-selenium-webdriver/&#39;</span><span class="p">)</span>
+
+<span class="c1"># click CKEditor&#39;s &#39;Numbered List&#39; button</span>
+<span class="n">ckeditor_btn_numbered_list</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;cke_button__numberedlist&quot;</span><span class="p">)</span>
+<span class="n">ckeditor_btn_numbered_list</span><span class="o">.</span><span class="n">click</span>
+
+<span class="c1"># click TinyMCE editor&#39;s &#39;Numbered List&#39; button</span>
+<span class="n">tinymce_btn_numbered_list</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:css</span> <span class="o">=&gt;</span> <span class="s2">&quot;.mce-btn[aria-label=&#39;Numbered list&#39;] button&quot;</span><span class="p">)</span>
+<span class="n">tinymce_btn_numbered_list</span><span class="o">.</span><span class="n">click</span></code></pre></div></div>
+
+<h3 id="set-content-using-editors-api">Set content using editors’ API</h3>
+
+<p><a class="show-hidden">Show</a></p>
+
+<div class="hidden"><div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Environment tested</span>
+<span class="c1"># Linux Mint 16, Selenium 2.41.0, Chromium 33.0, ChromeDriver 2.9</span>
+<span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:chrome</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yizeng.me/2014/01/31/test-wysiwyg-editors-using-selenium-webdriver/&#39;</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;CKEDITOR.instances.ckeditor.setData(&#39;&lt;h1&gt;Yi Zeng&lt;/h1&gt; CKEditor&#39;)&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;tinyMCE.activeEditor.setContent(&#39;&lt;h1&gt;Yi Zeng&lt;/h1&gt; TinyMCE&#39;)&quot;</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;CKEDITOR.instances.ckeditor.insertHtml(&#39;&lt;p&gt;Christchurch&lt;/p&gt;&#39;)&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;tinyMCE.activeEditor.insertContent(&#39;&lt;p&gt;Christchurch&lt;/p&gt;&#39;)&quot;</span><span class="p">)</span></code></pre></div></div>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="http://selenium.googlecode.com/git/docs/api/rb/index.html">Selenium Ruby binding API</a></li>
+  <li><a href="https://code.google.com/p/selenium/wiki/RubyBindings">RubyBindings WikiPage</a></li>
+  <li><a href="http://docs.ckeditor.com/">CKEditor 4 Documentation</a></li>
+  <li><a href="http://www.tinymce.com/wiki.php">TinyMCE 4 Documentation</a></li>
+  <li><a href="http://watirmelon.com/2011/08/12/automate-entering-text-into-wysiwyg-editors-using-watir-webdriver/">Automate entering text into WYSIWYG editors using Watir-WebDriver</a></li>
+</ul>
+
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2014/01/08/disable-javascript-using-selenium-webdriver" title="View 'Disable JavaScript using Selenium WebDriver'"> ← Disable JavaScript using Selenium WebDriver</a>
+                        
+                        
+                            <a class="internal" data-ga="Next Post" rel="next" href="/2014/02/08/take-a-screenshot-on-exception-with-selenium-csharp-eventfiringwebdriver" title="View 'Take a screenshot on exception with Selenium C#'s EventFiringWebDriver'">Take a screenshot on exception with Selenium C#'s EventFiringWebDriver → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2014/01/31/test-wysiwyg-editors-using-selenium-webdriver/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+		<script>
+			$('.show-hidden').on('click', function() {
+				$(this).parent().next().toggleClass("hidden");
+				$(this).toggleClass("hidden");
+			});
+		</script>
+	
+
+	
+		<script src="/assets/js/google-code-prettify/run_prettify.js?lang=yaml"></script>
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/css/highlight.css" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css" type="text/css" />');
+		</script>
+	
+
+	
+
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+

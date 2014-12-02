@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="Why people shouldn't start learning Selenium by automating Google's applications like Gmail, Google Maps etc." />
+    <meta name="keywords" content="seabookchen,selenium-webdriver" />
+    
+
+    <title>Why you shouldn't start learning Selenium by automating Google's products? - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">Why you shouldn't start learning Selenium by automating Google's products?</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub updated" title="2014-07-19T00:00:00+10:00" datetime="2014-07-19T00:00:00+10:00">July 19, 2014 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="articles" href="/categories/#articles" title="articles">
+                articles <span>16</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="selenium-webdriver" href="/tags/#selenium-webdriver" title="selenium-webdriver">selenium-webdriver <span>14</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <p>Whenever I see questions on StackOverflow about UI automation
+against Google’s products (especially Gmail, Google maps, Youtube, etc.),
+the first thing pops up in my head would be - do those OPs work for Google? I guess not.
+Then why are there so many people interested in automating Google’s applications from UI?</p>
+
+<p>My wild guess is that this mainly includes two situations:</p>
+
+<ul>
+  <li>Someone who starts off learning Selenium and has decided to automate Google search as a starting point.
+Since Google homepage has a reasonably clean and simple UI,
+people have the reason to believe that Google could be the best site for learning Selenium.
+After playing with “Google Search” scenario, they might continue to try out automating Gmail or Youtube.</li>
+  <li>Someone who needs to access Google services like Gmail, Google maps as part of the job,
+which can be either testing projects or applications involving browser automation.</li>
+</ul>
+
+<p>Well, for whatever the reason is, people should rarely need to automated Google’s applications from UI level,
+especially for those who have just started learning Selenium.</p>
+
+<ul class="toc" id="markdown-toc">
+  <li><a href="#dont-automate-googles-products">Don’t automate Google’s products</a>    <ul>
+      <li><a href="#google-search-use-case-is-too-easy">Google search use case is too easy</a></li>
+      <li><a href="#everything-else-is-too-difficult">Everything else is too difficult</a></li>
+      <li><a href="#there-are-apis">There are APIs</a></li>
+      <li><a href="#it-was-against-the-term-of-service">It was against the “Term of service”</a></li>
+    </ul>
+  </li>
+  <li><a href="#who-might-still-do-it">Who might still do it?</a></li>
+  <li><a href="#what-should-you-automate-then">What should you automate then?</a>    <ul>
+      <li><a href="#your-own-applications">Your own (or your company’s) applications</a></li>
+      <li><a href="#demos-of-javascript-ui-frameworks">Demos of JavaScript UI frameworks</a></li>
+    </ul>
+  </li>
+  <li><a href="#further-reading">Further reading</a></li>
+</ul>
+
+<h2 id="dont-automate-googles-products">Don’t automate Google’s products</h2>
+
+<h3 id="google-search-use-case-is-too-easy">Google search use case is too easy</h3>
+
+<p>Almost all Selenium 101 tutorials use Google search scenario, which seems like one the of easiest use cases.</p>
+
+<blockquote>
+  <ol>
+    <li>Send keys to Google’s search box</li>
+    <li>Submit</li>
+    <li>Check the title in browser window</li>
+  </ol>
+</blockquote>
+
+<p>This is indeed a reasonable starting point for people who have just started coding with Selenium,
+as it provides an intuitive way to demonstrate what Selenium does - “Selenium automates browsers”<sup><a id="footnote-ref-1" href="#footnote-1">[1]</a></sup>.</p>
+
+<p>However, considering the fact that it looks so easy
+purely because it was deliberately simplified for educational purposes,
+this use case doesn’t have to be the first Selenium program recommended for novice users to learn.
+More importantly, the dynamic DOM structure and the instant search feature
+have made Google homepage definitely not the easiest thing for them.
+Without revealing what’s under the hood, it might give newbies the false impressions that</p>
+
+<ul>
+  <li>Selenium projects are like some auto-generated scripts - let’s copy n’ paste these statements.</li>
+  <li>Google’s products are extremely straightforward to automate - let’s try automating Gmail or Youtube next.</li>
+</ul>
+
+<p>Instead of giving a use case that could potentially cause trouble,
+it might be better to find a scenario as simple as below for learning purposes.</p>
+
+<blockquote>
+  <ol>
+    <li>Search <code>[selenium]</code> on StackOverflow</li>
+    <li>Find out how many questions are tagged with “selenium”</li>
+  </ol>
+</blockquote>
+
+<h3 id="everything-else-is-too-difficult">Everything else is too difficult</h3>
+
+<p>Even though Google’s products are technically automatable, it requires certain amount of time and effort to achieve<sup><a id="footnote-ref-2" href="#footnote-2">[2]</a></sup>.
+Learning Selenium or performing certain tasks by automating them from UI would certainly be a poor choice.</p>
+
+<ul>
+  <li>
+    <p>DOM is too complex</p>
+
+    <p>Google is well-known for its meaningless, minimized DOM structures.
+Not only straightforward approaches like <code>id</code>, <code>name</code> won’t work well,
+but also advanced XPath/CSS selectors can merely be used because most of the things in DOM are not human readable.
+Difficulties in element locating could be really common in UI automation sometimes,
+while automating Google’s products makes it inevitable.
+Strong XPath/CSS selector skills are crucial to get the job done.</p>
+
+    <p>What about text-free XPaths based on position relationship, like <code>//div[3]/div[1]/div[3]/span[10]/a</code>?
+They are even worse and likely to be changed frequently by Google.
+Brittle XPaths shouldn’t be used in any kind of programs in the first place anyway.</p>
+  </li>
+  <li>
+    <p>Some are Ajax powered</p>
+
+    <p>Dynamic content handling techniques like waiting system <code>WebDriverWait</code> are essential for UI automation,
+but Ajax powered Google products (Google Maps, Youtube, etc.) would be definitely considered as one of the hardest.
+For those JavaScript and Ajax heavy applications,
+wait time might vary and debugging them are difficult due to other constraints, like dynamic DOM structures.</p>
+  </li>
+  <li>
+    <p>DOM changes too frequently</p>
+
+    <p>Just like many other active-developing web applications,
+the DOM of Google’s products are constantly changed either deliberately in order to prevent scripting or as part of the development process.
+Assuming best-available locators have been used,
+it may still frequently break the existing Selenium code and make it highly unmaintainable,</p>
+  </li>
+  <li>
+    <p>Source code is unavailable</p>
+
+    <p>Having both read and write access to internal issue tracker,
+source code, documentation, private APIs can be extremely useful during UI automation process.
+On one hand, modifying source code for testing purpose, like adding class names, is a common practice for making elements locating easier.
+On the other hand, monitoring UI related bug/feature tickets would greatly help developers track down what has been changed.
+Unfortunately, external automators outside Google won’t be able to take advantage of this.</p>
+  </li>
+</ul>
+
+<h3 id="there-are-apis">There are APIs</h3>
+
+<p>What if you are not only learning Selenium, but also trying to achieve something from those Google services,
+for instance, to verify emails in Gmail at part of the testing process?</p>
+
+<p>The answer is to use APIs or existing libraries that wraps around the APIs.
+Google provides APIs for <a href="https://developers.google.com/gmail/">Gmail</a>, <a href="https://developers.google.com/youtube/">Youtube</a>,
+<a href="https://developers.google.com/drive/">Drive</a>, <a href="https://developers.google.com/maps/">Maps</a> and more<sup><a id="footnote-ref-3" href="#footnote-3">[3]</a></sup>.
+This is the intended and more correct way to access data.
+People who have just started UI automation might think and solve problems in a way that end users will do.
+However, using Selenium doesn’t mean that absolutely all actions have to be performed from UI level,
+which, most of the time, would be an inefficient approach.</p>
+
+<p>For example, <a href="https://github.com/dcparker/ruby-gmail">ruby-gmail</a> is a Ruby library that allows accessing emails in Gmail.
+After installing the gem using <code>gem install ruby-gmail</code>, writing a program to get inbox count would be just a matter of seconds:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;gmail&#39;</span>
+
+<span class="n">gmail</span> <span class="o">=</span> <span class="no">Gmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;GMAIL_ADDRESS&#39;</span><span class="p">,</span> <span class="s1">&#39;GMAIL_PASSWORD&#39;</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="s2">&quot;Inbox count: </span><span class="si">#{</span><span class="n">gmail</span><span class="o">.</span><span class="n">inbox</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span></code></pre></div>
+
+<h3 id="it-was-against-the-term-of-service">It was against the “Term of service”</h3>
+
+<p>Although this might no longer be true for Google applications<sup><a id="footnote-ref-4" href="#footnote-4">[4]</a></sup> and nobody really cares about user agreement,
+it’s still worth noting that Google specifically had statement regarding automated access in their old versions
+of “<a href="http://www.google.com/intl/en/policies/terms/archive/20070416-20120301/">Term of Service</a>”.
+Same happens to Youtube as well, which still exists in current Youtube <a href="https://www.youtube.com/static?template=terms">Terms of Service 4-H</a>.
+<a class="show-hidden">Show</a></p>
+
+<div class="hidden"><p>Google</p>
+<blockquote>
+5.3 You agree not to access (or attempt to access) any of the Services by any means other than through the interface that is provided by Google, unless you have been specifically allowed to do so in a separate agreement with Google. You specifically agree not to access (or attempt to access) any of the Services through any automated means (including use of scripts or web crawlers) and shall ensure that you comply with the instructions set out in any robots.txt file present on the Services.
+</blockquote>
+
+<p>Youtube</p>
+<blockquote>
+You agree not to use or launch any automated system, including without limitation, "robots," "spiders," or "offline readers," that accesses the Service in a manner that sends more request messages to the YouTube servers in a given period of time than a human can reasonably produce in the same period by using a conventional on-line web browser. Notwithstanding the foregoing, YouTube grants the operators of public search engines permission to use spiders to copy materials from the site for the sole purpose of and solely to the extent necessary for creating publicly available searchable indices of the materials, but not caches or archives of such materials. YouTube reserves the right to revoke these exceptions either generally or in specific cases. You agree not to collect or harvest any personally identifiable information, including account names, from the Service, nor to use the communication systems provided by the Service (e.g., comments, email) for any commercial solicitation purposes. You agree not to solicit, for commercial purposes, any users of the Service with respect to their Content.
+</blockquote></div>
+
+<h2 id="who-might-still-do-it">Who might still do it?</h2>
+
+<ul>
+  <li>
+    <p>UI automation team within Google</p>
+
+    <p>If such team exists, the biggest advantage for them is the accessibility to source code.
+With ability to modify source code, UI automation can be a lot easier without fighting against nasty DOM structure.
+Additionally, they can easily track down which feature/bug ticket has changed DOM structure that causing previous Selenium WebDriver code failing.
+On the other hand, instead of automating from UI level, they might also use something at lower levels,
+like private APIs to interact with certain front-end functionalities.</p>
+  </li>
+  <li>
+    <p>People with no other choice</p>
+
+    <p>Sometimes accessing from UI might be the only way to achieve a task that must be done.
+If Google doesn’t provide API for a particular product and it’s so important that must be done, then just do it from UI level.
+The project might be extremely difficult to implement and can be super fragile to maintain, but it should still be achievable.
+However, from my experience, I can’t think of any valid use cases for this.</p>
+  </li>
+</ul>
+
+<h2 id="what-should-you-automate-then">What should you automate then?</h2>
+
+<h3 id="your-own-applications">Your own (or your company’s) applications</h3>
+
+<p>Don’t procrastinate.
+  Instead of spending time poking around and looking for something easy enough,
+  it is probably better to start from what you are supposed to do right away.
+  While coding up the project gradually, many questions might be asked by yourself:</p>
+
+<blockquote>
+  <ul>
+    <li>How can I find elements with dynamic ID?</li>
+    <li>How can I find elements with absolutely nothing identifiable?</li>
+    <li>How can I avoid unnecessary waiting?</li>
+    <li>How can I create more generic expected conditions?</li>
+    <li>How can I DRY up my code?</li>
+    <li>How can I make my classes more extensible?</li>
+    <li>How can I abstract my pages?</li>
+    <li>How can I …</li>
+  </ul>
+</blockquote>
+
+<p>As time goes by, you will be more familiar with Selenium API and the quality of the project will be improving automatically,
+  as long as you are keen on getting the answers to those questions and willing to ask more.</p>
+
+<p>Additionally, creating own demos could also be a good alternative for learning Selenium.
+  For example, <a href="http://the-internet.herokuapp.com/">“The Internet”</a> is a demo application written for a similar purpose,
+  which provides lots of examples for common web functionalities, like hovering, frames, JavaScript alerts, etc.</p>
+
+<h3 id="demos-of-javascript-ui-frameworks">Demos of JavaScript UI frameworks</h3>
+
+<p>There are common JavaScript frameworks for building web user interface, like <a href="http://www.sencha.com/products/extjs/">Ext JS</a>, <a href="http://dojotoolkit.org/">Dojo Toolkit</a> and <a href="http://qooxdoo.org/">qooxdoo</a>.
+They provide heaps of interesting demos on their websites which can be used for learning Selenium WebDriver.
+More importantly, you can download and create your own playground to have a better understanding of how DOM is generated and structured.
+To start with, even writing some code to automate their homepage would be fun, like navigating, searching, etc.</p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<ul>
+  <li>StackOverflow
+    <ul>
+      <li><a href="http://stackoverflow.com/questions/23084078/selenium-c-sharp-webdriver-unable-to-find-element#comment35284360_23084078">Selenium - C# - Webdriver - Unable to find element</a> (Arran)</li>
+      <li><a href="http://stackoverflow.com/a/8394306/1177636">Webdriver to open a mail in Gmail</a> (nilesh)</li>
+    </ul>
+  </li>
+  <li>Selenium Users Group
+    <ul>
+      <li><a href="https://groups.google.com/d/msg/selenium-users/Yd-OLaFxgCU/rE4-OWxVufYJ">How can i start automate the google map using selenium webdriver ?</a> (Mike Riley)</li>
+      <li><a href="https://groups.google.com/d/msg/selenium-users/8jR6Fw5ndxU/7peVDuzkNN4J">Stop trying to automate GMail</a> (Jim Evans)</li>
+      <li><a href="https://groups.google.com/d/msg/selenium-users/RfNvNAbLyLs/5-SJ5dmoELMJ">Unable to handle the elements after login to gmail acount</a> (Arran)</li>
+      <li><a href="https://groups.google.com/d/msg/selenium-users/aT465o3OEfQ/NT4LDgzj-YUJ">Selenium IDE &amp; try to record Gmail login test case</a>  (Krishnan)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="footnotes"><hr /><p id="footnote-1">[1]: <a href="http://docs.seleniumhq.org/">"What is Selenium?"</a> section.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-1" title="Back">↩</a>
+</p>
+<p id="footnote-2">[2]: Comment about Gmail <a href="http://stackoverflow.com/questions/13472062/can-we-use-web-driver-to-test-https-sites-i-am-trying-to-work-on-gmail-com-a#comment18552229_13472062">here</a> made by Ross Patterson.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-2" title="Back">↩</a>
+</p>
+<p id="footnote-3">[3]: <a href="https://developers.google.com/products/">Products — Google Developers</a>
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-3" title="Back">↩</a>
+</p>
+<p id="footnote-4">[4]: Current version of <a href="http://www.google.com/intl/en/policies/terms/">Google Terms of Service</a>.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-4" title="Back">↩</a>
+</p>
+<p id="footnote-5">[5]: Relationships between different versions of Selenium<a href="http://yizeng.me/2014/04/25/relationships-between-different-versions-of-selenium/#webdriver">#WebDriver</a>.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-5" title="Back">↩</a>
+</p></div>
+
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2014/05/23/download-pdf-files-automatically-in-firefox-using-selenium-webdriver" title="View 'Download PDF files automatically in Firefox using Selenium WebDriver'"> ← Download PDF files automatically in Firefox using Selenium WebDriver</a>
+                        
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2014/07/19/why-you-shouldnt-start-learning-selenium-by-automating-googles-products/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+		<script>
+			$('.show-hidden').on('click', function() {
+				$(this).parent().next().toggleClass("hidden");
+				$(this).toggleClass("hidden");
+			});
+		</script>
+	
+
+	
+		<script src="/assets/js/google-code-prettify/run_prettify.js?lang=yaml"></script>
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/css/highlight.css" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css" type="text/css" />');
+		</script>
+	
+
+	
+
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+

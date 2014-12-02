@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="How to install and setup Jekyll on a Windows machine." />
+    <meta name="keywords" content="seabookchen,jekyll,ruby,windows" />
+    
+
+    <title>Setup Jekyll on Windows - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">Setup Jekyll on Windows</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub " title="2013-05-10T00:00:00+10:00" datetime="2013-05-10T00:00:00+10:00">May 10, 2013 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                                (Last updated: <time class="date-updated updated" title="2014-04-20T00:00:00+10:00" datetime="2014-04-20T00:00:00+10:00">April 20, 2014</time>)
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="notes" href="/categories/#notes" title="notes">
+                notes <span>7</span></a>
+            </li>
+         
+            <li>
+                <a data-ga="popular" href="/categories/#popular" title="popular">
+                popular <span>17</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="jekyll" href="/tags/#jekyll" title="jekyll">jekyll <span>5</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="ruby" href="/tags/#ruby" title="ruby">ruby <span>9</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="windows" href="/tags/#windows" title="windows">windows <span>2</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <ul class="toc" id="markdown-toc">
+  <li><a href="#install-ruby">Install Ruby</a></li>
+  <li><a href="#install-devkit">Install DevKit</a></li>
+  <li><a href="#install-jekyll">Install Jekyll</a></li>
+  <li><a href="#install-pygments">Install Pygments</a>    <ul>
+      <li><a href="#install-python">Install Python</a></li>
+      <li><a href="#install-easy-install">Install ‘Easy Install’</a></li>
+      <li><a href="#install-pygments-2">Install Pygments</a></li>
+    </ul>
+  </li>
+  <li><a href="#start-jekyll">Start Jekyll</a></li>
+  <li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+
+<h2 id="install-ruby">Install Ruby</h2>
+
+<ol>
+  <li>
+    <p>Go to <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a></p>
+  </li>
+  <li>
+    <p>In “RubyInstallers” section, click a version to download.<br />
+For example, <code>Ruby 2.0.0-p451 (x64)</code> is the Windows installer for Ruby 2.0.0 x64 on 64-bit machines.</p>
+  </li>
+  <li>
+    <p>Install through the installer</p>
+
+    <ul>
+      <li>Keep the default directory <code>C:\Ruby200-x64</code> if possible,
+  please note installer advises that “Please avoid any folder name that contains spaces (e.g. Program Files).”</li>
+      <li>Tick “Add Ruby executables to your PATH” checkbox, so PATH will be updated automatically to avoid headaches.</li>
+    </ul>
+
+    <p><a class="post-image" href="/assets/images/posts/2013-05-11-ruby-installer.png">
+ <img itemprop="image" data-src="/assets/images/posts/2013-05-11-ruby-installer.png" src="/assets/js/unveil/loader.gif" alt="Windows Ruby installer" />
+ </a></p>
+  </li>
+  <li>
+    <p>Open up a command prompt window and type in the following command, to see if Ruby has been install correctly or not.</p>
+
+    <blockquote>
+      <p>ruby -v</p>
+    </blockquote>
+
+    <p>Example output:</p>
+
+    <blockquote>
+      <p>ruby 2.0.0p451 (2014-02-24) [x64-mingw32]</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="install-devkit">Install DevKit</h2>
+
+<p>The DevKit is a toolkit that makes it easy to build
+and use native C/C++ extensions such as RDiscount and RedCloth for Ruby on Windows.
+Detailed installation instructions can be found on its <a href="https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions">wiki page</a>.</p>
+
+<ol>
+  <li>
+    <p>Go to <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a> again.</p>
+  </li>
+  <li>
+    <p>Download “DEVELOPMENT KIT” installer that matches the Windows architecture and the Ruby version just installed.
+For instance, <code>DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe</code> is for 64-bit Windows with Ruby 2.0.0 x64.</p>
+
+    <p>Here is a list about how to choose the correct DevKit version:</p>
+
+    <blockquote>
+      <p><strong>Ruby 1.8.6 to 1.9.3</strong>: DevKit tdm-32-4.5.2<br />
+<strong>Ruby 2.0.0</strong>: DevKit mingw64-32-4.7.2<br />
+<strong>Ruby 2.0.0 x64</strong>: DevKit mingw64-64-4.7.2</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Run the installer and extract it to a folder, e.g. <code>C:\DevKit</code>.</p>
+  </li>
+  <li>
+    <p>Initialize and create <code>config.yml</code> file. Type in the following commands in command Prompt window:</p>
+
+    <blockquote>
+      <p>cd “C:\DevKit”<br />
+ruby dk.rb init<br />
+notepad config.yml</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In opened notepad window, add a new line <code>- C:\Ruby200-x64</code> at the end, save and close.</p>
+  </li>
+  <li>
+    <p>Back to the Command Prompt, review (optional) and install.</p>
+
+    <blockquote>
+      <p>ruby dk.rb review<br />
+ruby dk.rb install</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="install-jekyll">Install Jekyll</h2>
+
+<ol>
+  <li>
+    <p>Verify that gem has been installed properly</p>
+
+    <blockquote>
+      <p>gem -v</p>
+    </blockquote>
+
+    <p>Example output:</p>
+
+    <blockquote>
+      <p>2.0.14</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Install Jekyll gem</p>
+
+    <blockquote>
+      <p>gem install jekyll</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="install-pygments">Install Pygments</h2>
+
+<p>The default syntax highlighting engine in Jekyll is <a href="http://pygments.org/">Pygments</a>.
+It requires Python to be installed and <code>highlighter</code> field to be set to <code>pygments</code> in site’s configuration file <code>_config.yml</code>.</p>
+
+<p>Recently, Jekyll has added another highlighting engine called <a href="https://github.com/jayferd/rouge">Rouge</a>,
+which doesn’t support as many languages as Pygments at the moment, but it’s Ruby native and Python-free.
+More details can be followed <a href="http://jekyllrb.com/docs/templates/#code_snippet_highlighting">here</a>.</p>
+
+<h3 id="install-python">Install Python</h3>
+
+<ol>
+  <li>Go to <a href="http://www.python.org/download/">http://www.python.org/download/</a></li>
+  <li>Download appropriate version of Python windows installer, e.g. <code>Python 2.7.6 Windows Installer</code>.
+Note that Python 2 is preferred since Python 3 might not be functioning as intended at the time of writing.</li>
+  <li>Install</li>
+  <li>Set the installation directory (e.g. <code>C:\Python27</code>) to PATH. (How to? See <a href="#troubleshooting">Troubleshooting #1</a>)</li>
+  <li>
+    <p>Verify Python installation</p>
+
+    <blockquote>
+      <p>python --version</p>
+    </blockquote>
+
+    <p>Example output:</p>
+
+    <blockquote>
+      <p>Python 2.7.6</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h3 id="install-easy-install">Install ‘Easy Install’</h3>
+
+<ol>
+  <li>Visit <a href="https://pypi.python.org/pypi/setuptools#installation-instructions">https://pypi.python.org/pypi/setuptools#installation-instructions</a> for detailed installation instructions.</li>
+  <li>
+    <p>For Windows 7 machines, download <a href="https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py">ez_setup.py</a>
+and save it, for example, to <code>C:\</code>. Then run it using Python in a command prompt window:</p>
+
+    <blockquote>
+      <p>python “C:\ez_setup.py”</p>
+    </blockquote>
+  </li>
+  <li>Add ‘Python Scripts’ directory (e.g. <code>C:\Python27\Scripts</code>) to PATH.</li>
+</ol>
+
+<h3 id="install-pygments-2">Install Pygments</h3>
+
+<ol>
+  <li>
+    <p>Verify easy_install is installed properly</p>
+
+    <blockquote>
+      <p>easy_install --version</p>
+    </blockquote>
+
+    <p>Example output:</p>
+
+    <blockquote>
+      <p>setuptools 3.1</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Install Pygments using “easy_install”</p>
+
+    <blockquote>
+      <p>easy_install Pygments</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="start-jekyll">Start Jekyll</h2>
+
+<p>Following the commands on official <a href="http://jekyllrb.com/docs/quickstart/">Jekyll Quick-start guide</a>,
+a new Jekyll blog should be created and can be browsed at <a href="http://localhost:4000">localhost:4000</a>.</p>
+
+<blockquote>
+  <p>jekyll new myblog<br />
+cd myblog<br />
+jekyll serve</p>
+</blockquote>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<ol>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>“python” is not recognized as an internal or external command, operable program or batch file.
+</code></pre>
+
+    <p><strong>Alternatives</strong>: “python” here can also be “ruby”, “gem” or “easy_install”, etc.</p>
+
+    <p><strong>Reason</strong>: Program is not properly installed, or the PATH has not been set correctly.</p>
+
+    <p><strong>Solution</strong>: Ensure the program has been installed correctly.
+     Then add it to the PATH manually, see the steps below<sup><a id="footnote-ref-1" href="#footnote-1">[1]</a></sup>.</p>
+
+    <blockquote>
+      <ol>
+        <li>Hold Win and press Pause.</li>
+        <li>Click Advanced System Settings.</li>
+        <li>Click Environment Variables.</li>
+        <li>Append <code>;C:\python27</code> to the Path variable.</li>
+        <li>Restart Command Prompt.</li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>ERROR:  Error installing jekyll:
+ERROR: Failed to build gem native extension.
+
+"C:/Program Files/Ruby/Ruby200-x64/bin/ruby.exe" extconf.rb
+
+creating Makefile
+make generating stemmer-x64-mingw32.def
+compiling porter.c
+...
+make install
+/usr/bin/install -c -m 0755 stemmer.so C:/Program Files/Ruby/Ruby200-x64/lib/ruby/gems/2.0.0/gems/fast-stemmer-1.0.2/li
+/usr/bin/install: target `Files/Ruby/Ruby200-x64/lib/ruby/gems/2.0.0/gems/fast-stemmer-1.0.2/lib' is not a directory
+make: *** [install-so] Error 1
+</code></pre>
+
+    <p><strong>Reason</strong>: Ruby has been installed to a folder with spaces.</p>
+
+    <p><strong>Solution</strong>: Re-install Ruby, but this time install it to a folder without spaces,
+ or simply keep the default directory when installing.</p>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>Generating... Liquid Exception: No such file or directory - python c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/pygments.rb-0.4.2/lib/pygments/mentos.py in 2013-04-22-yizeng-hello-world.md
+</code></pre>
+
+    <p><strong>Reason</strong>: Pygments is not properly installed or the PATH is yet to be effective.</p>
+
+    <p><strong>Solution</strong>: First make sure Pygments has been installed and PATH for Python is correct without no spaces or trailing slash.
+     Then restart Command Prompt. If it’s not working, try logout Windows and log back in again.
+     Or even try the ultimate and most powerful solution - “turning the computer off and on again”.</p>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>Generating... Liquid Exception: No such file or directory - /bin/sh in _posts/2013-04-22-yizeng-hello-world.md
+</code></pre>
+
+    <p><strong>Reason</strong>: Incompatibility issue with pygments.rb versions 0.5.1/0.5.2.</p>
+
+    <p><strong>Solution</strong>: Downgrade pygments.rb gem from 0.5.1/0.5.2 to version 0.5.0.</p>
+
+    <blockquote>
+      <p>gem uninstall pygments.rb --version 0.5.2<br />
+gem install pygments.rb --version 0.5.0</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/dependency.rb:296:in `to_specs': Could not find 'pygments.rb' (~&gt; 0.4.2) - did find: [pygments.rb-0.5.0] (Gem::LoadError)
+from c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/specification.rb:1196:in `block in activate_dependencies'
+from c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/specification.rb:1185:in `each'
+from c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/specification.rb:1185:in `activate_dependencies'
+from c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/specification.rb:1167:in `activate'
+from c:/Ruby200-x64/lib/ruby/2.0.0/rubygems/core_ext/kernel_gem.rb:48:in`gem'
+from c:/Ruby200-x64/bin/jekyll:22:in `&lt;main&gt;'`
+</code></pre>
+
+    <p><strong>Reason</strong>: As suggested in the message, pygments.rb 0.4.2 is needed, while version 0.5.0 is found.
+ (This issue happened a while back with an old version of Jekyll, which should have been fixed by now.)</p>
+
+    <p><strong>Solution</strong>: Downgrade pygments.rb gem to version 0.4.2</p>
+
+    <blockquote>
+      <p>gem uninstall pygments.rb --version 0.5.0<br />
+gem install pygments.rb --version 0.4.2</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>Generating... You are missing a library required for Markdown. Please run:
+$ [sudo] gem install rdiscount
+Conversion error: There was an error converting '_posts/2013-04-22-yizeng-hello-world.md/#excerpt'.
+
+ERROR: YOUR SITE COULD NOT BE BUILT:
+   ------------------------------------
+   Missing dependency: rdiscount
+</code></pre>
+
+    <p><strong>Reason</strong>: Dependency <code>rdiscount</code> is missing.
+ This is most likely because the site selects <a href="https://github.com/davidfstr/RDiscount">rdiscount</a> as Markdown engine,
+ which is not Jekyll’s default and needs to be installed manually.</p>
+
+    <p><strong>Solution</strong>:</p>
+
+    <blockquote>
+      <p>gem install rdiscount</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Error message:</p>
+
+    <pre><code>c:/Ruby200-x64/lib/ruby/site_ruby/2.0.0/rubygems/core_ext/kernel_require.rb:55:in `require': cannot load such file -- wdm (LoadError)
+from c:/Ruby200-x64/lib/ruby/site_ruby/2.0.0/rubygems/core_ext/kernel_require.rb:55:in `require'
+from c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/adapter.rb:207:in `load_dependent_adapter'
+from c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/adapters/windows.rb:33:in `load_dependent_a
+dapter'
+...
+</code></pre>
+
+    <p><strong>Reason</strong>: <code>wdm</code> gem could not be found. Since Jekyll only supports *nix systems officially,
+     <a href="https://github.com/Maher4Ever/wdm">Windows Directory Monitor</a> is therefore not included among Jekyll dependencies.</p>
+
+    <p><strong>Solution</strong>:</p>
+
+    <blockquote>
+      <p>gem install wdm</p>
+    </blockquote>
+  </li>
+</ol>
+
+<div class="footnotes"><hr /><p id="footnote-1">
+[1]: <a href="http://stackoverflow.com/a/6318188/1177636">Adding Python Path on Windows 7</a> by melhosseiny.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-1" title="Back">↩</a>
+</p></div>
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2013/04/22/hello-world" title="View 'Hello World!'"> ← Hello World!</a>
+                        
+                        
+                            <a class="internal" data-ga="Next Post" rel="next" href="/2013/05/17/quick-rubygems-command-references-for-jekyll" title="View 'Quick RubyGems Command References for Jekyll'">Quick RubyGems Command References for Jekyll → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2013/05/10/setup-jekyll-on-windows/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+
+	
+
+	
+		<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+		<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+
+		<script>window.jQuery.fancybox || document.write('<script src="/assets/js/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')</script>
+		<script>window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/js/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')</script>
+
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/js/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+			$(".post-image").fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+				closeBtn : true,
+				helpers : {
+					title : { type : 'float' }
+				}
+			});
+		</script>
+	
+
+	
+		<script src="/assets/js/unveil/jquery.unveil.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$(".post-image > img").unveil(450);
+			});
+		</script>
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+

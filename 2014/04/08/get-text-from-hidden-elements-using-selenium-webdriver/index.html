@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="How to get text from hidden elements using Selenium WebDriver .NET, Ruby and Python bindings, using attribute innerHTML, innerText or textContent." />
+    <meta name="keywords" content="seabookchen,c#,python,ruby,selenium-webdriver" />
+    
+
+    <title>Get text from hidden elements using Selenium WebDriver - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">Get text from hidden elements using Selenium WebDriver</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub " title="2014-04-08T00:00:00+10:00" datetime="2014-04-08T00:00:00+10:00">April 08, 2014 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                                (Last updated: <time class="date-updated updated" title="2014-04-20T00:00:00+10:00" datetime="2014-04-20T00:00:00+10:00">April 20, 2014</time>)
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="articles" href="/categories/#articles" title="articles">
+                articles <span>16</span></a>
+            </li>
+         
+            <li>
+                <a data-ga="popular" href="/categories/#popular" title="popular">
+                popular <span>17</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="c#" href="/tags/#csharp" title="c#">c# <span>6</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="python" href="/tags/#python" title="python">python <span>2</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="ruby" href="/tags/#ruby" title="ruby">ruby <span>9</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="selenium-webdriver" href="/tags/#selenium-webdriver" title="selenium-webdriver">selenium-webdriver <span>14</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <p>As defined in <a href="http://www.w3.org/TR/webdriver/#interactable">WebDriver spec</a>,
+Selenium WebDriver will only interact with visible elements,
+therefore the text of an invisible element will always be returned as an empty string.</p>
+
+<p>However, in some cases, one may find it useful to get the hidden text,
+which can be retrieved from element’s <code>textContent</code>, <code>innerText</code> or <code>innerHTML</code> attribute,
+by calling <code>element.attribute('attributeName')</code> or injecting JavaScript like <code>return arguments[0].attributeName</code>.</p>
+
+<ul>
+  <li><code>innerHTML</code> will return the inner HTML of this element, which <strong>contains all HTML tags inside</strong>.<br />
+ For example, innerHTML for <code>&lt;div&gt;Hello &lt;p&gt;World!&lt;/p&gt;&lt;/div&gt;</code> would be <code>Hello &lt;p&gt;World!&lt;/p&gt;</code> instead of <code>Hello World!</code>.</li>
+  <li><code>textContent</code> and <code>innerText</code> will only retrieve all text content of its descendants <strong>without any HTML tags</strong>.
+    <ul>
+      <li><code>textContent</code> is a W3C-compliant textContent property<sup><a id="footnote-ref-1" href="#footnote-1">[1]</a></sup>, but sadly is not supported by IE<sup><a id="footnote-ref-2" href="#footnote-2">[2]</a></sup>.</li>
+      <li><code>innerText</code> is not part of the W3C DOM specification and not supported by Firefox.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Here is a brief demonstration on how to get text from hidden elements using Selenium WebDriver .NET, Ruby and Python bindings.</p>
+
+<ul class="toc" id="markdown-toc">
+  <li><a href="#ruby">Ruby</a></li>
+  <li><a href="#c-sharp">C#</a></li>
+  <li><a href="#python">Python</a></li>
+  <li><a href="#output">Output</a></li>
+</ul>
+
+<h2 id="ruby">Ruby</h2>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Windows 7, Ruby 2.0.0p451, Selenium 2.41.0, PhantomJS 1.9.7<br />
+Linux Mint, ruby 2.1.1p76, Selenium 2.41.0, PhantomJS 1.9.7</p>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="no">DEMO_PAGE</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">eos</span>
+<span class="sh">    data:text/html,</span>
+<span class="sh">    &lt;p&gt;Demo page for how to get text from hidden elements using Selenium WebDriver.&lt;/p&gt;</span>
+<span class="sh">    &lt;div id=&#39;demo-div&#39;&gt;Demo div &lt;p style=&#39;display:none&#39;&gt;with a hidden paragraph inside.&lt;/p&gt;&lt;hr /&gt;&lt;br /&gt;&lt;/div&gt;</span>
+<span class="no">eos</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:phantomjs</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">navigate</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="no">DEMO_PAGE</span><span class="p">)</span>
+
+<span class="n">demo_div</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="ss">:id</span><span class="p">,</span> <span class="s1">&#39;demo-div&#39;</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">demo_div</span><span class="o">.</span><span class="n">attribute</span><span class="p">(</span><span class="s1">&#39;innerHTML&#39;</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;return arguments[0].innerHTML&quot;</span><span class="p">,</span> <span class="n">demo_div</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">demo_div</span><span class="o">.</span><span class="n">attribute</span><span class="p">(</span><span class="s1">&#39;textContent&#39;</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;return arguments[0].textContent&quot;</span><span class="p">,</span> <span class="n">demo_div</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<h2 id="c-sharp">C#</h2>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Windows 7, Selenium 2.40.0, PhantomJS 1.9.7</p>
+</blockquote>
+
+<div><pre class="prettyprint lang-c#"><code>using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Support.Extensions;
+
+namespace GetHiddenText {
+
+    internal class Program {
+
+        private const string DEMO_PAGE = @&quot;data:text/html,
+            &lt;p&gt;Demo page for how to get text from hidden elements using Selenium WebDriver.&lt;/p&gt;
+            &lt;div id=&#39;demo-div&#39;&gt;Demo div &lt;p style=&#39;display:none&#39;&gt;with a hidden paragraph inside.&lt;/p&gt;&lt;hr /&gt;&lt;br /&gt;&lt;/div&gt;&quot;;
+
+        internal static void Main(string[] args) {
+            IWebDriver driver = new PhantomJSDriver();
+            driver.Navigate().GoToUrl(DEMO_PAGE);
+
+            IWebElement demoDiv = driver.FindElement(By.Id(&quot;demo-div&quot;));
+
+            Console.WriteLine(demoDiv.GetAttribute(&quot;innerHTML&quot;));
+            Console.WriteLine(driver.ExecuteJavaScript&lt;string&gt;(&quot;return arguments[0].innerHTML&quot;, demoDiv));
+
+            Console.WriteLine(demoDiv.GetAttribute(&quot;textContent&quot;));
+            Console.WriteLine(driver.ExecuteJavaScript&lt;string&gt;(&quot;return arguments[0].textContent&quot;, demoDiv));
+
+            driver.Quit();
+        }
+    }
+}</code></pre></div>
+
+<h2 id="python">Python</h2>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Windows 7, Python 2.7.5, Selenium 2.41.0, PhantomJS 1.9.7<br />
+Linux Mint 16, Python 2.7.5+, Selenium 2.41.0, PhantomJS 1.9.7</p>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+
+<span class="n">DEMO_PAGE</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;data:text/html,</span>
+<span class="s">    &lt;p&gt;Demo page for how to get text from hidden elements using Selenium WebDriver.&lt;/p&gt;</span>
+<span class="s">    &lt;div id=&#39;demo-div&#39;&gt;Demo div &lt;p style=&#39;display:none&#39;&gt;with a hidden paragraph inside.&lt;/p&gt;&lt;hr /&gt;&lt;br /&gt;&lt;/div&gt;&#39;&#39;&#39;</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">PhantomJS</span><span class="p">()</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DEMO_PAGE</span><span class="p">)</span>
+
+<span class="n">demo_div</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s">&quot;demo-div&quot;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">demo_div</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s">&#39;innerHTML&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s">&quot;return arguments[0].innerHTML&quot;</span><span class="p">,</span> <span class="n">demo_div</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">demo_div</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s">&#39;textContent&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s">&quot;return arguments[0].textContent&quot;</span><span class="p">,</span> <span class="n">demo_div</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<h2 id="output">Output</h2>
+
+<blockquote>
+  <p>Demo div &lt;p style=”display:none”&gt;with a hidden paragraph inside.&lt;/p&gt;&lt;hr&gt;&lt;br&gt;<br />
+Demo div &lt;p style=”display:none”&gt;with a hidden paragraph inside.&lt;/p&gt;&lt;hr&gt;&lt;br&gt;<br /></p>
+
+  <p>Demo div with a hidden paragraph inside.<br />
+Demo div with a hidden paragraph inside.</p>
+</blockquote>
+
+<div class="footnotes"><hr /><p id="footnote-1">
+[1]: W3C-compliant <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent">textContent </a>property
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-1" title="Back">↩</a>
+</p>
+<p id="footnote-2">
+[2]: W3C DOM Compatibility<a href="http://www.quirksmode.org/dom/w3c_html.html#t07">#textContent</a>
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-2" title="Back">↩</a>
+</p></div>
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2014/03/25/setup-stringer-on-heroku" title="View 'Setup Stringer on Heroku'"> ← Setup Stringer on Heroku</a>
+                        
+                        
+                            <a class="internal" data-ga="Next Post" rel="next" href="/2014/04/20/install-chromedriver-and-phantomjs-on-linux-mint" title="View 'Install ChromeDriver and PhantomJS on Linux Mint'">Install ChromeDriver and PhantomJS on Linux Mint → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2014/04/08/get-text-from-hidden-elements-using-selenium-webdriver/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+
+	
+		<script src="/assets/js/google-code-prettify/run_prettify.js?lang=yaml"></script>
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/css/highlight.css" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css" type="text/css" />');
+		</script>
+	
+
+	
+
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+

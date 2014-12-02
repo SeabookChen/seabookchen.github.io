@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Seabook Chen">
+    <meta name="description" content="How to get browser window size, resize or maximize window using Selenium WebDriver C#, Ruby and Python bindings." />
+    <meta name="keywords" content="seabookchen,c#,python,ruby,selenium-webdriver" />
+    
+
+    <title>How to get window size, resize or maximize window using Selenium WebDriver - Seabook Chen</title>
+
+    <link href='/assets/css/blog-style.css' rel="stylesheet" type="text/css">
+    <link href="/rss.xml" rel="alternate" title="Seabook Chen" type="application/rss+xml">
+
+    <!--[if IE]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.0.6.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if !IE]> -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script>window.Modernizr || document.write('<script src="/assets/js/modernizr-2.6.2.min.js"><\/script>')</script>
+    <!-- <![endif]-->
+    
+
+    <script>
+        if (!navigator.userAgent.match(/.*(Pingdom|PhantomJS|StatusCake).*/gi)) {
+            
+                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42466615-1', 'auto');
+ga('send', 'pageview');
+                
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+        <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    <noscript>
+        <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+    </noscript>
+
+    <div class="nav-wrapper">
+        <div class="nav-form">
+            <span class="overlay-header menu">Menu</span>
+            <a class="btn-close">Close</a>
+            <div class="results">
+                <a href="/archives">Archives</a>
+             <!--   <a href="/categories/#articles"></a> -->
+             <!--   <a href="/categories/#notes"></a> -->
+                <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
+                <a href="/">About</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-form">
+            <input type="text" class="overlay-header search-field" placeholder="Search...">
+            <a class="btn-close">Close</a>
+            <ul class="results"></ul>
+        </div>
+    </div>
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+            <div class="unit-head">
+                <div class="unit-inner unit-head-inner">
+                    <nav class="nav-global">
+                        <ul>
+                            <li class="logo nav-link">
+                                <button class="btn-menu" data-ga="Menu"></button>
+                                <a href="/">Seabook Chen</a>
+                                <!--[if !IE]> --><button class="btn-search" data-ga="Search"></button><!-- <![endif]-->
+                            </li>
+                            <li class="nav-link"><a data-ga="Archives" href="/archives">Archives</a></li>
+                           <!-- <li class="nav-link"><a data-ga="Articles" href="/categories#articles"></a></li>
+                            <li class="nav-link"><a data-ga="Notes" href="/categories#notes"></a></li> -->
+                            <li class="nav-link"><a data-ga="Categories" href="/categories">Categories</a></li>
+                            <li class="nav-link"><a data-ga="Tags" href="/tags">Tags</a></li>
+                            <!--[if !IE]> --><li class="nav-link"><a data-ga="Search" class="btn-search" href="#">Search</a></li><!-- <![endif]-->
+                        </ul>
+                    </nav>
+                </div><!-- unit-inner -->
+            </div><!-- unit-head -->
+        </header>
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        
+<article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 itemprop="name" class="entry-title">How to get window size, resize or maximize window using Selenium WebDriver</h1>
+                    </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+            </header>
+            <div class="bd">
+                <div class="entry-content">
+                        <div class="meta">
+                            <p class="date-publish">
+                               Published: <time itemprop="datePublished" class="date-pub updated" title="2014-02-23T00:00:00+11:00" datetime="2014-02-23T00:00:00+11:00">February 23, 2014 </time> by 
+                                <a class="author" href="/" rel="author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Seabook Chen</span></span></a>
+                                <a class="license image-link" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                                
+                            </p>
+                            <ul class="list-category list-linear">
+                                <li class="list-head">Categories: </li>
+                                
+                                
+
+
+    
+         
+            <li>
+                <a data-ga="articles" href="/categories/#articles" title="articles">
+                articles <span>16</span></a>
+            </li>
+         
+            <li>
+                <a data-ga="popular" href="/categories/#popular" title="popular">
+                popular <span>17</span></a>
+            </li>
+        
+    
+
+
+                            </ul>
+                            <ul class="list-tag list-linear">
+                                <li class="list-head">Tags: </li>
+                                
+                                
+
+
+    
+        
+            
+            <li>
+                <a data-ga="c#" href="/tags/#csharp" title="c#">c# <span>6</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="python" href="/tags/#python" title="python">python <span>2</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="ruby" href="/tags/#ruby" title="ruby">ruby <span>9</span></a>
+            </li>
+        
+            
+            <li>
+                <a data-ga="selenium-webdriver" href="/tags/#selenium-webdriver" title="selenium-webdriver">selenium-webdriver <span>14</span></a>
+            </li>
+        
+    
+
+
+
+                            </ul>
+                        </div><!-- meta -->
+                        <div itemprop="articleBody">
+                            <p>Selenium WebDriver supports getting the browser window size,
+resizing and maximizing window natively from its API,
+no JavaScript injections like <code>window.resizeTo(X, Y);</code> are necessary any more.
+Below shows the examples on how to achieve this in Selenium WebDriver C#, Ruby and Python bindings.</p>
+
+<ul class="toc" id="markdown-toc">
+  <li><a href="#ruby">Ruby</a>    <ul>
+      <li><a href="#ruby-example">Example</a></li>
+      <li><a href="#ruby-output">Output</a></li>
+    </ul>
+  </li>
+  <li><a href="#c-sharp">C#</a>    <ul>
+      <li><a href="#c-sharp-example">Example</a></li>
+      <li><a href="#c-sharp-output">Output</a></li>
+    </ul>
+  </li>
+  <li><a href="#python">Python</a>    <ul>
+      <li><a href="#python-example">Example</a></li>
+      <li><a href="#python-output">Output</a></li>
+    </ul>
+  </li>
+  <li><a href="#comparison">Comparison</a></li>
+  <li><a href="#related-source-code">Related source code</a></li>
+</ul>
+
+<h2 id="ruby">Ruby</h2>
+
+<p>In Ruby binding, window size can be retrieved from method <code>driver.manage.window.size</code>,
+which is a type of struct <code>Selenium::WebDriver::Dimension</code> defined <a href="http://selenium.googlecode.com/git/docs/api/rb/Selenium/WebDriver/Dimension.html">here</a>.
+To resize a window, one solution is to create a new <code>Dimension</code> object
+and assign it to property <code>driver.manage.window.size</code>.
+Alternatively, Ruby binding has provided a <code>driver.manage.window.resize_to()</code> method,
+which is equivalent to <code>#size=</code>, but accepts width and height arguments according to API <a href="http://selenium.googlecode.com/git/docs/api/rb/Selenium/WebDriver/Window.html#resize_to-instance_method">here</a>.</p>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Windows 7, Ruby 2.0.0p247, Selenium 2.39.0, Firefox 26.0</p>
+</blockquote>
+
+<h3 id="ruby-example">Example</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;selenium-webdriver&#39;</span>
+
+<span class="c1"># get initial window size</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">.</span><span class="n">for</span> <span class="ss">:firefox</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c1"># set window size using Dimension struct</span>
+<span class="n">target_size</span> <span class="o">=</span> <span class="no">Selenium</span><span class="o">::</span><span class="no">WebDriver</span><span class="o">::</span><span class="no">Dimension</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">)</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">target_size</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c1"># resize window</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">resize_to</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">320</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c1"># maximize window</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">maximize</span>
+<span class="nb">puts</span> <span class="n">driver</span><span class="o">.</span><span class="n">manage</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">size</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<h3 id="ruby-output">Output</h3>
+
+<blockquote>
+  <p>#&lt;struct Selenium::WebDriver::Dimension width=1341, height=810&gt;<br />
+#&lt;struct Selenium::WebDriver::Dimension width=1024, height=768&gt;<br />
+#&lt;struct Selenium::WebDriver::Dimension width=480, height=320&gt;<br />
+#&lt;struct Selenium::WebDriver::Dimension width=1804, height=1096&gt;</p>
+</blockquote>
+
+<h2 id="c-sharp">C#</h2>
+
+<p>Similarly in C# binding, a browser window’s size can be found out using <code>driver.Manage().Window.Size</code> property.
+The same <a href="https://code.google.com/p/selenium/source/browse/dotnet/src/webdriver/IWindow.cs">IWindow interface</a> also defines method <code>Maximize()</code> for maximizing the window.
+Although this interface doesn’t provide a function to resize window directly like Ruby binding,
+it can be done by setting the <code>Size</code> property using <code>System.Drawing.Size</code> object<sup><a id="footnote-ref-1" href="#footnote-1">[1]</a></sup>.</p>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Windows 7, Selenium 2.39.0, Firefox 26.0</p>
+</blockquote>
+
+<h3 id="c-sharp-example">Example</h3>
+
+<div><pre class="prettyprint lang-c#"><code>using System;
+using System.Drawing;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+
+namespace BrowserWindowSizeApp {
+
+    internal class Program {
+
+        internal static void Main(string[] args) {
+
+            // get initial window size
+            IWebDriver driver = new FirefoxDriver();
+            Console.WriteLine(driver.Manage().Window.Size);
+
+            // set window size
+            driver.Manage().Window.Size = new Size(480, 320);
+            Console.WriteLine(driver.Manage().Window.Size);
+
+            // maximize window
+            driver.Manage().Window.Maximize();
+            Console.WriteLine(driver.Manage().Window.Size);
+
+            driver.Quit();
+        }
+    }
+}</code></pre></div>
+
+<h3 id="c-sharp-output">Output</h3>
+
+<blockquote>
+  <p>{Width=1341, Height=810}<br />
+{Width=480, Height=320}<br />
+{Width=1804, Height=1096}</p>
+</blockquote>
+
+<h2 id="python">Python</h2>
+
+<p>Unlike C# and Ruby bindings, Python binding doesn’t offer properties to get/set window size,
+all get/set/maximize actions are available using methods defined in <a href="http://selenium.googlecode.com/git/docs/api/py/webdriver_remote/selenium.webdriver.remote.webdriver.html">selenium.webdriver.remote.webdriver</a>.</p>
+
+<blockquote>
+  <p>Environment Tested:<br />
+Window 7, Python 2.7, Selenium 2.40.0, Firefox 26.0</p>
+</blockquote>
+
+<h3 id="python-example">Example</h3>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+
+<span class="c"># get initial window size</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">driver</span><span class="o">.</span><span class="n">get_window_size</span><span class="p">()</span>
+
+<span class="c"># set window size</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">320</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">driver</span><span class="o">.</span><span class="n">get_window_size</span><span class="p">()</span>
+
+<span class="c"># maximize window</span>
+<span class="n">driver</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">driver</span><span class="o">.</span><span class="n">get_window_size</span><span class="p">()</span>
+
+<span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></code></pre></div>
+
+<h3 id="python-output">Output</h3>
+
+<blockquote>
+  <p>{u’width’: 1341, u’height’: 810}<br />
+{u’width’: 480, u’height’: 320}<br />
+{u’width’: 1804, u’height’: 1096}</p>
+</blockquote>
+
+<h2 id="comparison">Comparison</h2>
+
+<div class="data-table"><table><tr><th colspan="2">Get window size</th></tr>
+<tr>
+	<td>Ruby</td>
+	<td>driver.manage.window.size</td>
+</tr>
+<tr>
+	<td>C#</td>
+	<td>driver.Manage().Window.Size;</td>
+</tr>
+<tr>
+	<td>Python</td>
+	<td>driver.get_window_size()</td>
+</tr>
+<tr><th colspan="2">Set window size</th></tr>
+<tr>
+	<td>Ruby</td>
+	<td>
+		size = Selenium::WebDriver::Dimension.new(width, height)<br />
+		driver.manage.window.size = size
+	</td>
+</tr>
+<tr>
+	<td>C#</td>
+	<td>
+		System.Drawing.Size windowSize = new System.Drawing.Size(width, height);<br />
+		driver.Manage().Window.Size = windowSize;
+	</td>
+</tr>
+<tr>
+	<td>Python</td>
+	<td>-</td>
+</tr>
+<tr><th colspan="2">Resize window</th></tr>
+<tr>
+	<td>Ruby</td>
+	<td>driver.manage.window.resize_to(width, height)</td>
+</tr>
+<tr>
+	<td>C#</td>
+	<td>-</td>
+</tr>
+<tr>
+	<td>Python</td>
+	<td>driver.set_window_size(width, height)</td>
+</tr>
+<tr><th colspan="2">Maximize window</th></tr>
+<tr>
+	<td>Ruby</td>
+	<td>driver.manage.window.maximize</td>
+</tr>
+<tr>
+	<td>C#</td>
+	<td>driver.Manage().Window.Maximize();</td>
+</tr>
+<tr>
+	<td>Python</td>
+	<td>driver.maximize_window()</td>
+</tr></table></div>
+
+<h2 id="related-source-code">Related source code</h2>
+
+<ul>
+  <li><a href="https://code.google.com/p/selenium/source/browse/rb/lib/selenium/webdriver/common/window.rb">Ruby - window.rb</a></li>
+  <li><a href="https://code.google.com/p/selenium/source/browse/rb/lib/selenium/webdriver.rb">Ruby - Dimension struct</a></li>
+  <li><a href="https://code.google.com/p/selenium/source/browse/dotnet/src/webdriver/IWindow.cs">C# - IWindow interface</a></li>
+  <li><a href="https://code.google.com/p/selenium/source/browse/py/selenium/webdriver/remote/webdriver.py">Python - webdriver.py</a></li>
+</ul>
+
+<div class="footnotes"><hr /><p id="footnote-1">
+[1]: Adding "System.Drawing" assembly reference to project is required first.
+<a class="reverse-footnote internal" data-ga="Reverse Footnote" href="#footnote-ref-1" title="Back">↩</a>
+</p></div>
+
+
+                        </div>
+                </div><!-- entry-content -->
+            </div><!-- bd -->
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="gotop">
+                        <a class="internal" href="#page">Back to Top</a>
+                        <!-- AddThis Button BEGIN -->
+                        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_google_plusone_share"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_twitter"></a>
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+                        <!-- AddThis Button END -->
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" data-ga="Previous Post" rel="prev" href="/2014/02/08/take-a-screenshot-on-exception-with-selenium-csharp-eventfiringwebdriver" title="View 'Take a screenshot on exception with Selenium C#'s EventFiringWebDriver'"> ← Take a screenshot on exception with Selenium C#'s EventFiringWebDriver</a>
+                        
+                        
+                            <a class="internal" data-ga="Next Post" rel="next" href="/2014/03/05/hide-command-prompt-window-in-selenium-webdriver-net-binding" title="View 'Hide command prompt window in Selenium WebDriver .NET binding'">Hide command prompt window in Selenium WebDriver .NET binding → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                <div class="comment">
+                    <button class="center-block show-hidden" data-ga="Show Comments" data-disqus-url="http://seabookchen.net/2014/02/23/how-to-get-window-size-resize-or-maximize-window-using-selenium-webdriver/">Show Comments</button>
+                    <div id="disqus_thread"></div>
+                </div>
+            </div><!-- misc-content -->
+        </div><!-- content -->
+    </div><!-- unit-inner -->
+</article>
+
+
+                    </div>
+                </div><!-- unit-inner -->
+            </div><!-- unit-body -->
+        </div><!-- body -->
+
+        <footer class="the-footer">
+            <div class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="misc vcard">
+                        <div class="about">
+                            <h4><a href="/">About</a></h4>
+                            
+                                <p>
+                                    <span class="fn p-name">Seabook Chen</span>,
+                                    <span class="p-job-title">a software developer</span>
+                                    <span> based in </span>
+                                    <span class="adr h-adr p-adr">
+                                        <abbr class="locality p-locality">Melbourne</abbr>,
+                                        <abbr class="country-name p-country-name">Australia</abbr>.
+                                    </span>
+                                </p>
+                                <p><a href="" target="_blank">License</a> &amp; <a href="" target="_blank">Acknowledgements</a></p>
+                            
+                            
+                        </div>
+                        <div class="social-links">
+                            <a class="ico-linkedin" href="https://au.linkedin.com/pub/seabook-chen/20/13/495" rel="me" target="_blank" title="LinkedIn Profile"></a>
+                            <a class="ico-github" href="http://github.com/seabookchen/" rel="me" target="_blank" title="GitHub Page"></a>
+                            <a class="ico-gmail" href="http://scr.im/30ax" rel="me" target="_blank" title="Email Address"></a>
+                            <a class="ico-twitter" href="https://twitter.com/IamSeabook" rel="me" target="_blank" title="Twitter Profile"></a>
+                            <a class="ico-rss" href="/rss.xml" rel="me" target="_blank" title="RSS Feeds"></a>
+                        </div>
+                    </div><!-- misc -->
+                </div><!-- unit-foot-inner -->
+            </div><!-- unit-foot -->
+            <a href="#" class="internal back-to-top">Back to Top</a>
+        </footer>
+    </div><!-- page -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.0.min.js"><\/script>')</script>
+
+<!-- Loading progess bar plugin -->
+<!--[if !IE]> -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pace/0.4.17/pace.min.js"></script>
+	<script>window.Pace || document.write('<script src="/assets/js/pace.min.js"><\/script>')</script>
+<!-- <![endif]-->
+
+<script>
+	$(document).ready(function () {
+		var offset = 50, duration = 500, width = 960;
+		$(window).scroll(function () {
+			if ($(window).width() > width) {
+				if ($(this).scrollTop() > offset) {
+					$('footer').css('top', '20px');
+					$('footer .back-to-top').fadeIn(duration);
+				} else {
+					$('footer').css('top', 'auto');
+					$('footer .back-to-top').fadeOut(duration);
+				}
+			}
+		});
+		$(window).resize(function () {
+			if ($(window).width() < width) {
+				$('footer').css('top', 'auto');
+				$('footer .back-to-top').fadeOut(duration);
+			}
+			if ($(window).width() >= width && $(this).scrollTop() > offset) {
+				$('footer').css('top', '20px');
+				$('footer .back-to-top').fadeIn(duration);
+			}
+		});
+
+		$('footer .back-to-top').click(function (event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, duration);
+			return false;
+		});
+	});
+</script>
+
+<!-- Google Analytics Event tracking -->
+<script>
+var sendGaEvent = function(category, action, label) {
+	if (label === 'undefined') {
+		ga('send', 'event', category, action);
+	} else {
+		ga('send', 'event', category, action, label.trim());
+	}
+};
+
+$(document).ready(function () {
+	$('.the-header .nav-link a').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+	$('.the-header .nav-link button').on('click', function() {
+		sendGaEvent('Navigation Buttons', 'Click', this.getAttribute('data-ga'));
+	});
+
+	$('[class$=wrapper] .results a').on('click', function() {
+		sendGaEvent('Overlay Links', 'Click', this.textContent);
+	});
+
+	$('.the-footer .about a').on('click', function() {
+		sendGaEvent('Footer Links', 'Click', this.textContent);
+	});
+	$('.the-footer .social-links > a').on('click', function() {
+		sendGaEvent('Social Links', 'Click', this.title);
+	});
+
+	$('.tag_box.categories a').on('click', function() {
+		sendGaEvent('Categories', 'Click', this.title);
+	});
+	$('.tag_box.tags a').on('click', function() {
+		sendGaEvent('Tags', 'Click', this.title);
+	});
+
+	$('a.internal, .unit-article .comment .show-hidden').on('click', function() {
+		label = (this.getAttribute('data-ga') !== null) ? this.getAttribute('data-ga') : this.textContent;
+		sendGaEvent('Internal Links', 'Click', label);
+	});
+
+	$('.unit-article .meta .author').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'Author');
+	});
+	$('.unit-article .meta .license').on('click', function() {
+		sendGaEvent('Post meta Links', 'Click', 'License');
+	});
+	$('.unit-article .meta .list-linear a').on('click', function() {
+		if (this.getAttribute('data-ga') !== null){
+			sendGaEvent('Post meta Links', 'Click', this.getAttribute('data-ga'));
+		}
+	});
+});
+</script>
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/js/jekyll-search.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.search-field').simpleJekyllSearch({
+			jsonFile : '/search.json',
+			template : '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+			searchResults: '.search-wrapper .results',
+			searchResultsTitle : '<h4>Search results</h4>',
+			noResults : '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+		});
+	});
+
+	(function($, window, undefined) {
+		var closeOverlay = function() {
+			$('.nav-wrapper, .search-wrapper').removeAttr('style');
+			$(".nav-form, .search-form").removeClass('active');
+			$("body").removeClass('nav-overlay search-overlay');
+		};
+
+		$('.nav-global .btn-search').on('click', function() {
+			$('.search-wrapper').css({ display: "block" });
+			$(".search-form").addClass('active');
+			$(".search-form").find('input').focus();
+			$("body").addClass('search-overlay');
+		});
+
+		$('.nav-global .btn-menu').on('click', function() {
+			$('.nav-wrapper').css({ display: "block" });
+			$(".nav-form").addClass('active');
+			$(".nav-form .search-field").prop('disabled', true);
+			$("body").addClass('nav-overlay');
+		});
+
+		$('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function() {
+			closeOverlay();
+		});
+
+		$(document).on('keyup', function(e) {
+			if(e.keyCode === 27) {
+				closeOverlay();
+			}
+		});
+	})(jQuery, window);
+</script>
+
+
+	
+
+	
+		<script src="/assets/js/google-code-prettify/run_prettify.js?lang=yaml"></script>
+		<script>
+			$("head").append('<link rel="stylesheet" href="/assets/css/highlight.css" type="text/css" />');
+			$("head").append('<link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css" type="text/css" />');
+		</script>
+	
+
+	
+
+	
+
+
+
+<script>
+$(document).ready(function () {
+	var disqusPublicKey = "KFzbWZl4jsWRpxveM8AZ7nFLFlOJHotx0Ih4jyIKrGi5L66K2opIcmThlG96rGpl";
+	var disqusShortname = "seabookchen";
+	var threadUrl = 'link:' + $('.comment .show-hidden').attr('data-disqus-url');
+
+	$.ajax({
+		type: 'GET',
+		url: 'https://disqus.com/api/3.0/threads/set.jsonp',
+		data: { api_key: disqusPublicKey, forum: disqusShortname, thread: threadUrl },
+		cache: false,
+		dataType: 'jsonp',
+		success: function(result) {
+			if (result.response.length === 1) {
+				btnText = 'Show Comments (' + result.response[0].posts + ')';
+				$('.comment .show-hidden').html(btnText);
+			}
+		}
+	});
+
+	$('.comment .show-hidden').on('click', function() {
+		$.ajaxSetup({cache:true});
+		$.getScript('http://' + disqusShortname + '.disqus.com/embed.js');
+		$.ajaxSetup({cache:false});
+		$(this).remove();
+	});
+
+	if(/\#comment/.test(location.hash)){
+		$('.comment .show-hidden').trigger('click');
+	}
+});
+</script>
+
+
+</body>
+</html>
+
