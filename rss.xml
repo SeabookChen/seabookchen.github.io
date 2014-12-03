@@ -5,10 +5,34 @@
         <description>Seabook Chen</description>
         <atom:link href="http://seabookchen.net/rss.xml" rel="self" type="application/rss+xml" />
         <link>http://seabookchen.net</link>
-        <lastBuildDate>Tue, 02 Dec 2014 15:02:51 +1100</lastBuildDate>
-        <pubDate>Tue, 02 Dec 2014 15:02:51 +1100</pubDate>
+        <lastBuildDate>Wed, 03 Dec 2014 12:25:50 +1100</lastBuildDate>
+        <pubDate>Wed, 03 Dec 2014 12:25:50 +1100</pubDate>
         <ttl>1800</ttl>
 
+        
+            <item>
+                    <title>2014-12-02-第一篇中文blog</title>
+                    <description>&lt;h1&gt;这里是题目&lt;/h1&gt;
+
+&lt;h3&gt;这里是小标题&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;香蕉&lt;/li&gt;
+  &lt;li&gt;苹果&lt;/li&gt;
+  &lt;li&gt;西瓜&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table class=&quot;highlighttable&quot;&gt;&lt;tr&gt;&lt;td class=&quot;linenos&quot;&gt;&lt;div class=&quot;linenodiv&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;1
+2
+3&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+</description>
+                    <link>http://seabookchen.net/2014/12/02/hellochineseblog</link>
+                    <guid>http://seabookchen.net/2014/12/02/hellochineseblog</guid>
+                    <pubDate>Tue, 02 Dec 2014 00:00:00 +1100</pubDate>
+            </item>
         
             <item>
                     <title>Why you shouldn't start learning Selenium by automating Google's products?</title>
@@ -3488,6 +3512,12 @@ dapter&#39;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div&gt;&lt;pre class=&quot;prettyprint lang-c#&quot;&gt;&lt;code&gt;public class Hello {
+	public static void Main() {
+		Console.WriteLine(&amp;quot;Hello, World! This is a super long line to test the functionality of pygments code highlighting.&amp;quot;);
+	}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;table class=&quot;highlighttable&quot;&gt;&lt;tr&gt;&lt;td class=&quot;linenos&quot;&gt;&lt;div class=&quot;linenodiv&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;1
 2

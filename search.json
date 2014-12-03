@@ -1,6 +1,13 @@
 [
 	
 		{
+		  "title"      : "2014-12-02-第一篇中文blog",
+		  "url"        : "/2014/12/02/hellochineseblog",
+		  "date"       : "2014-12-02 00:00:00 +1100",
+		  "shortdate"  : "December 02, 2014"
+		} ,
+	
+		{
 		  "title"      : "Why you shouldn&#39;t start learning Selenium by automating Google&#39;s products?",
 		  "url"        : "/2014/07/19/why-you-shouldnt-start-learning-selenium-by-automating-googles-products",
 		  "date"       : "2014-07-19 00:00:00 +1000",
